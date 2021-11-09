@@ -1,5 +1,5 @@
 import React from 'react'
-import * as s from '../styles/Wrapper'
+import * as s from '../styles/ProfileStyle'
 
 function Profile() {
     return (
