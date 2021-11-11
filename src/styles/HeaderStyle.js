@@ -3,16 +3,18 @@ import styled from 'styled-components';
 export const HeaderWrapper = styled.div`
     display: flex;
     width: 100%;
-    justify-content: space-between;
     padding: 4px;
+    margin-bottom: 50px;
+    justify-content: center;
 
     input{
         border: 1px solid #ccc;
         border-radius: 8px;
-        width: 100%;
+        width:60%;
         height: 44px;
         outline: none;
         padding-left: 5px;
+        font-weight: 500;
     }
     
     button{
@@ -25,7 +27,7 @@ export const HeaderWrapper = styled.div`
         color: white;   
 
         &:hover{
-            background-color: #225ed9;
+            background-color: #2c5289;
             box-shadows: 3px 2px 10px #ccc;
         }
     }

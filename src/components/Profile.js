@@ -3,11 +3,12 @@ import useGithub from '../hooks/GitHubHooks'
 import * as s from '../styles/ProfileStyle'
 
 function Profile() {
-    const { githubstate } = useGithub()
+    const { githubstate } = useGithub();
+
 
     return (
         <s.Wrapper>
-            <s.WrapperUserImage src='https://avatars.githubusercontent.com/u/30602516?v=4' alt="User Avatar" />
+            <s.WrapperUserImage src={githubstate.user.avatar} alt="User Avatar" />
 
             <s.WrapperUserInfo>
                 <div>
@@ -16,6 +17,7 @@ function Profile() {
                         <h3>Username: </h3>
                         <a href= {githubstate.user.html_url} target='_blank'>{githubstate.user.login}</a>
                     </s.WrapperUserName>
+
                 </div>
 
                 <s.WrapperStatesCount>
