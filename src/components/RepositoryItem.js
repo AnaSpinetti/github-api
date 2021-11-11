@@ -1,12 +1,13 @@
 import React from 'react'
+import * as s from "../styles/ItemStyle"
 
 function RepositoryItem({name, linkToRepo, fullname}) {
     return (
-        <div>
-            <h2>{name}</h2>
-            <h4>Fullname: </h4>
+        <s.WrapperItem>
+            <s.WrapperTittle>{name}</s.WrapperTittle> 
+            <s.WrapperSubTittle>fullName: </s.WrapperSubTittle>
             <a href={linkToRepo} target="_blank" rel="noreferrer"> {fullname} </a>
-        </div>
+        </s.WrapperItem>
     )
 }
 

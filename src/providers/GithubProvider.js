@@ -2,6 +2,7 @@ import React, {createContext, useCallback, useState} from 'react';
 import api from '../services/api';
 
 export const GithubContext = createContext({
+    loading: false,
     user: {},
     repositories: [],
     starred: [],
@@ -9,32 +10,36 @@ export const GithubContext = createContext({
 
 function GithubProvider({children}) {
     const [githubstate, setGithubState] = useState({
+        hasUser: false,
         loading: false,
-                hasUser: false,
-                user:{
-                    login: null,
-                    name: null,
-                    html_url: null,
-                    followers: null,
-                    following: null,
-                    public_gists: null,
-                    public_repos: null,
-                    avatar: null
-                }
+        user:{
+            id: null,
+            login: null,
+            name: null,
+            html_url: null,
+            followers: null,
+            following: null,
+            public_gists: null,
+            public_repos: null,
+            avatar: null
+        },
+        repositories: [],
+        starred: [],
     });
 
-    // Consumindo a API
+    // Consumindo a API - dados do usuário
     const getUser = (username) => {
         setGithubState((prevState) => ({
             ...prevState,
             loading: !prevState.loading
         }));
-
+        
         api.get(`users/${username}`).then(({data}) => {
             setGithubState((prevState) => ({
                 ...prevState, 
                 hasUser: true,
                 user:{
+                    id: data.id,
                     login: data.login,
                     name: data.name,
                     html_url: data.html_url,
@@ -53,11 +58,34 @@ function GithubProvider({children}) {
         })
     }
 
+    // Consumindo a API - abas de repositórios e favoritos
+    const getUserRepos = (username) => {
+        api.get(`users/${username}/repos`).then(({data}) => {
+            setGithubState((prevState) => ({
+                ...prevState, 
+                repositories: data,
+            }));
+        });
+    }
+
+
+
+    const getUserStarred = (username) => {
+        api.get(`users/${username}/starred`).then(({data}) => {
+            setGithubState((prevState) => ({
+                ...prevState, 
+                starred: data,
+            }));
+        });
+    }
+    
     const contextValue = {
         githubstate,
         getUser: useCallback((username) => getUser(username), []),
+        getUserRepos: useCallback((username) => getUserRepos(username), []),
+        getUserStarred: useCallback((username) => getUserStarred(username), [])
     };
-
+    
     return (
         <div>
             <GithubContext.Provider value={contextValue}>
